@@ -46,6 +46,11 @@ app.use(cookieParser(process.env.JWT_SECRET));
 app.use(express.static('./public'));
 app.use(fileUpload());
 
+app.get('/api', (req, res) => {
+  res.send('<h1>Store API</h1><a href="/api/v1/products">products</a>');
+  console.log('loggg');
+});
+
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/auth/users', userRouter);
 app.use('/api/v1/products', productRouter);
@@ -55,10 +60,13 @@ app.use('/api/v1/orders', orderRouter);
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 
+
+
 const port = process.env.PORT || 5000;
 const start = async () => {
-  try {
-    await connectDB("mongodb://0.0.0.0:27017/auth-controller");
+  try { 
+   
+    await connectDB(process.env.MONGO_URI);
     app.listen(port, () =>
       console.log(`Server is listening on port ${port}...`)
     );

@@ -26,7 +26,7 @@ const register = async (req, res) => {
 
   sendEmail(name, email, tokenVerification, origin, 'Verify')
 
-  res.status(StatusCodes.CREATED).json({ msg: 'Sucess please check your Email ', tokenVerification })
+  res.status(StatusCodes.CREATED).json({ msg: 'Success please check your Email ', tokenVerification })
 
 };
 
