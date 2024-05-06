@@ -34,7 +34,9 @@ const ReviewSchema = mongoose.Schema(
 ReviewSchema.index({ product: 1, user: 1 }, { unique: true });
 
 ReviewSchema.statics.calculateAverageRating = async function (productId) {
+
   const result = await this.aggregate([
+
     { $match: { product: productId } },
     {
       $group: {
@@ -43,9 +45,11 @@ ReviewSchema.statics.calculateAverageRating = async function (productId) {
         numOfReviews: { $sum: 1 },
       },
     },
+
   ]);
 
   try {
+
     await this.model('Product').findOneAndUpdate(
       { _id: productId },
       {
@@ -53,6 +57,7 @@ ReviewSchema.statics.calculateAverageRating = async function (productId) {
         numOfReviews: result[0]?.numOfReviews || 0,
       }
     );
+
   } catch (error) {
     console.log(error);
   }
